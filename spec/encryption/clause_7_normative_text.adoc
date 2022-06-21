@@ -1,0 +1,155 @@
+== Requirements Classes (Normative)
+
+=== Requirement Class `Keys`
+
+==== gpkg_ext_keys table 
+[[r1001]]
+[caption=""]
+.Requirement 1001
+====
+For GeoPackages conforming to this extension, the `gpkg_ext_keys` table SHALL have two columns called `id` and `data`. The `key_id` column is identifier of the key used in the `feature data` table `key_id` column as a foreign key. The `data` column holds the key information.
+====
+
+[#gpkg_ext_keys_table,reftext='{table-caption} {counter:table-num}']
+.gpkg_ext_keys Table Definition additional columns
+[cols=",,,",options="header",]
+|====
+|Column Name |Column Type |Column Description |NOT NULL flag 
+|`id` |TEXT |Identifier of the key used in the `<feature data>` or `<tile data>` table|true 
+|`data` |TEXT |Encoding of lookup metadata for one or multiple keys, or key-wrap encoding of one or multiple keys | true 
+|====
+
+[[r1002]]
+[caption=""]
+.Requirement 1002
+====
+For GeoPackages conforming to this extension, the column `data` for the `gpkg_data_columns` table SHALL declare the mime type used for encoding the key information.
+====
+.gpkg_data_columns Table
+[cols=",,,,,,",options="header",]
+|====
+|*table_name* |*column_name* |*name* |*title* |*description* |*mime_type*|*constraint_name*
+|`gpkg_ext_keys` |`data` |`gpkg_ext_keys-data` | |JOSE encoded key information or metadata for key lookup|Any media type that defines the encoding | NULL
+|====
+
+[NOTE]
+=====
+This standard does not mandate a particular media type to describe the encoding of the `data` column for the `gpkg_ext_keys` table to ensure greatest applicability. However, it is recommended to use the following default:
+
+* `application/jose`
+=====
+
+=== Requirements Class `Features`
+
+==== Table `<feature data>`
+[[r2001]]
+[caption=""]
+.Requirement 2001
+====
+For GeoPackages conforming to this extension, the `<feature data>` table SHALL have an additional column called `key_id` that is a foreign key to the `id` column of the `gpkg_ext_keys` table.
+====
+
+[#features_table,reftext='{table-caption} {counter:table-num}']
+.Feature Table Definition additional columns
+[cols=",,,",options="header",]
+|====
+|Column Name |Column Type |Column Description |NOT NULL flag
+|`key_id` |TEXT |foreign key to the `gpkg_ext_keys` tables `id` column |true |
+|====
+
+==== Table `gpkg_extensions`
+[[r2002]]
+[caption=""]
+.Requirement 2002
+====
+GeoPackages complying with this extension SHALL have a row in the `gpkg_extensions` table as described in <<FeaturesEncrytpionExtensionTableRecord>> (below).
+====
+
+[#FeaturesEncrytpionExtensionTableRecord,reftext='{table-caption} {counter:table-num}']
+.Extension Table Records
+[cols=",,,,",options="header",]
+|====
+|*table_name* |*column_name* |*extension_name* |*definition* |*scope*
+|`<feature data>` |NULL |`sd_encrypted_features` |_see note below_|`read-write`
+|====
+
+[NOTE]
+=====
+For the `definition` column, use a hyperlink that describes the current implementation of this extension.
+A temporary URL is http://www.geopackage.org/spec121/index.html#sd_encrypted_features.
+=====
+
+==== Table `gpkg_data_columns`
+
+
+[[r2003]]
+.gpkg_data_columns Table
+[cols=",,,,,,",options="header",]
+|====
+|*table_name* |*column_name* |*name* |*title* |*description* |*mime_type*|*constraint_name*
+|`<feature data>` |`data` |<feature table>-data | encrypted feature data | data encrypted using symmetric cipher|Any media type that defines the encoding| NULL
+|====
+
+[NOTE]
+=====
+This standard does not mandate a particular media type to describe the encoding of the `data` column for the `<feature data>` table to ensure greatest applicability. However, it is recommended to use the following default:
+
+* `application/jose`
+=====
+
+=== Requirements Class `Tiles`
+
+==== Table `<tile table>`
+[[r3001]]
+[caption=""]
+.Requirement 3001
+====
+For GeoPackages conforming to this extension, the `<tile data>` table SHALL have an additional column called `key_id` that is a foreign key to the `id` column of the `gpkg_ext_keys` table.
+====
+
+[#tiles_table,reftext='{table-caption} {counter:table-num}']
+.Tile Table Definition additional columns
+[cols=",,,",options="header",]
+|====
+|Column Name |Column Type |Column Description |NOT NULL flag
+|`key_id` |TEXT |foreign key to the `gpkg_ext_keys` table `id` column |true |
+|====
+
+==== Table `gpkg_extensions`
+[[r3002]]
+[caption=""]
+.Requirement 3002
+====
+GeoPackages complying with this extension SHALL have a row in the `gpkg_extensions` table as described in <<TilesEncrytpionExtensionTableRecord>> (below).
+====
+
+
+[#TilesEncrytpionExtensionTableRecord,reftext='{table-caption} {counter:table-num}']
+.Extension Table Records
+[cols=",,,,",options="header",]
+|====
+|*table_name* |*column_name* |*extension_name* |*definition* |*scope*
+|`<tile data>` |NULL |`sd_encrypted_tiles` |_see note below_|`read-write`
+|====
+
+[NOTE]
+=====
+For the `definition` column, use a hyperlink that describes the current implementation of this extension.
+A temporary URL is http://www.geopackage.org/spec121/index.html#sd_encrypted_tiles.
+=====
+
+==== Table `gpkg_data_columns`
+
+[[r3003]]
+[caption=""]
+.Requirement 3003
+====
+For GeoPackages conforming to this extension, the `mime_type` in the `gpkg_data_columns` table where the `table_name` is equal to `<tile data>` SHALL define the mime-type for the encrypted data.
+====
+
+[NOTE]
+=====
+This standard does not mandate a particular media type to describe the encoding of the `tile_data` column for the `<tile data>` table to ensure greatest applicability. However, it is recommended to use the following defualts:
+
+* `application/octet-stream` for the `<tile data>` table
+=====

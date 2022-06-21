@@ -1,0 +1,72 @@
+== GeoPackage Encryption Extension (Informative)
+
+Following is the information required by the link:http://www.geopackage.org/spec/#extension_template[GeoPackage Extension Template].
+
+=== Extension Author
+
+Secure Dimensions, Andreas Matheus
+
+=== Extension Names
+
+`sd_encrypted_features`
+
+`sd_encrypted_tiles`
+
+=== Extension Type
+
+Extension to store encrypted data and the associated keys or their metadata
+
+=== Applicability
+
+Applies to the following tables:
+
+- `gpkg_contents`
+- `gpkg_data_column`
+- `gpkg_extensions`
+- `<feature data>` table (table name varies)
+- `<tile data>` table (table name varies)
+
+Defines this new table:
+
+- `gpkg_ext_keys`
+
+=== Scope
+
+Read-write
+
+=== Security Considerations
+Encryption is a solution to establish confidentiality. Only those entities that are able to get the cipher key can decrypt the information.
+
+This extension does not restrict the way how encryption key information is stored in the `gpkg_ext_keys` table. It is clearly unwise to store the data decryption key inside the `gpkg_ext_keys` table in the clear. Instead, it is recommended to only include metadata for key lookup with a standardized Key Management System (KMS) or store a wrapped (encrypted) key.
+
+Using simple JSON to provide the metadata for a key is also not recommended as an attacker could have replaced the encrypted content and provided lookup information for the attackers key.
+
+Using a JWS or JWT encoding for the key metadata allows to have integrity and perhaps authenticity. This ensures that an adversary cannot simply replace encrypted content with fraudulent data as it is not possible to replace the key lookup information (kid or kurl). 
+
+Storing key lookup metadata implies that a solution is in place that ensures safety of the keys via some Key Management API.
+
+Storing the key information as a "wrapped (encrypted) key" using a JWE encoding allows to use the Encryption Extension completly offline. Legitimate actors that are in possesion of the private key to unwrap the encryption key can decrypt the actual data. This option requires to have a PKI in place and is limited to dedicated end users, already known when the GeoPackage was generated.
+
+The use of this encryption extension enables confidentiality to the stored data. However, this extension does **not** define a normative way of assuring integrity of the GeoPackage file - either as a whole or parts of it!
+
+To prevent from a *man-in-the-middle* attack on the encrpyted data, it is required to apply integrity. The annex of this document illustrates one approach to do so.
+A common threat to encrypted information is that an adversary replaces bytes in the encrypted content. This remains undetected as long the data decrypts. It is therefore paramount to have an integrity solution in place that protects the GeoPackage from tampering!
+
+[IMPORTANT]
+WARNING: Don't use the GeoPackage Encryption Extension without having a security aware eco-system deployed that ensures integrity and authenticity verification of GeoPackage issuers. Also, the use of trusted applications is recommended to prevent that decrypted data becomes accessible to unauthorized actors.
+
+=== Note on Media Types
+The extensions defined in this standard allow great flexibility how data is encrypted. To achieve interoperability, an implementation must ensure that the appropriate media type for the encrypted data is specified. Even though the use of "standard" media types for encrypted information is recommended, it is possible to use any registred or even vendor specific definitions.
+
+For storing encrypted feature data, the following media types are commonly used:
+
+* `application/jose` to indicate that the encoding of the encrypted data follows the definition of <<rfc_7516>>. This media type applies perfectly to an JSON or GeoJSON encoded feature data.
+* `application/xenc+xml` to indicate that the encoding of the encrypted data follows the defintion of "W3C: XML Encryption Syntax and Processing (2012)". This media type applies perfectly to a GML encoded feature data.
+* `application/octet-stream` to indicate that the encoding is a "BLOB". This media type applies perfectly to encrypted tile data.
+
+This standard also does not mandate the encoding of the key information, stored in the `gpkg_ext_keys` table, `data` column. Which encoding (media type) fits best depends on the intension:
+
+* Define key metadata that allows to lookup the key from some Key Management API. In this case any JSON structure would be sufficient. However, to ensure integrity and optionally authenticity, it is recommended to use JWS or JWT encoding.
+* Provide the data encryption key requires its protection using key-wrapping. The result of key-wrapping can be stored using JWE. The JWE header provides metadata (kid or kurl) for the wrapping key and the payload contains the key or keys data.
+
+It is recommended to use the JWK encoding to describe a key or a JWKS (key-set) to describe an array of keys. Either a JWK or JWKS can be used as payload to a JWS, JWT and JWE.

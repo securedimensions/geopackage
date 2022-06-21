@@ -1,0 +1,53 @@
+[appendix]
+:appendix-caption: Annex
+== Table Definition SQL (Normative)
+
+=== gpkg_ext_keys
+
+[[gpkg_ext_keys_sql]]
+.gpkg_ext_keys Table Definition SQL
+[cols=","]
+[source,sql]
+----
+CREATE TABLE gpkg_ext_keys 
+(
+  id TEXT NOT NULL PRIMARY KEY AUTOINCREMENT,
+  data TEXT NOT NULL
+)
+----
+
+=== <feature data> table
+
+[[feature_table_sql]]
+.<feature data> Table Definition SQL
+[cols=","]
+[source,sql]
+----
+CREATE TABLE <feature data> 
+(
+  id INTEGER PRIMARY KEY, 
+  fid TEXT, 
+  geom BLOB, 
+  data BLOB, 
+  key_id TEXT, 
+  FOREIGN KEY(key_id) REFERENCES gpkg_ext_keys(id)
+)
+----
+
+=== <tile data> table
+
+[[tile_table_sql]]
+.<tile data> Table Definition SQL
+[cols=","]
+[source,sql]
+----
+CREATE TABLE <tile data> 
+(
+  id INTEGER PRIMARY KEY, 
+  fid TEXT, 
+  geom BLOB, 
+  tile_data BLOB, 
+  key_id INTEGER, 
+  FOREIGN KEY(key_id) REFERENCES gpkg_ext_keys(id)
+)
+----

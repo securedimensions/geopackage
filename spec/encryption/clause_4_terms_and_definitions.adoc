@@ -1,0 +1,36 @@
+== Terms and Definitions
+This document used the terms defined in https://portal.ogc.org/public_ogc/directives/directives.php[OGC Policy Directive 49], which is based on the ISO/IEC Directives, Part 2, Rules for the structure and drafting of International Standards. In particular, the word “shall” (not “must”) is the verb form used to indicate a requirement to be strictly followed to conform to this standard and OGC documents do not use the equivalent phrases in the ISO/IEC Directives, Part 2.
+
+This document also uses terms defined in the OGC Standard for Modular specifications (https://portal.opengeospatial.org/files/?artifact_id=34762[OGC 08-131r3]), also known as the 'ModSpec'. The definitions of terms such as standard, specification, requirement, and conformance test are provided in the ModSpec.
+
+For the purposes of this document, the following additional terms and definitions apply.
+
+encryption::
+In cryptography, encryption is the process of encoding information. This process converts the original representation of the information, known as plaintext, into an alternative form known as ciphertext. Ideally, only authorized parties can decipher a ciphertext back to plaintext and access the original information. Encryption does not itself prevent interference but denies the intelligible content to a would-be interceptor. (SOURCE: https://en.wikipedia.org/wiki/Encryption[Wikipedia])
+
+key::
+A key in cryptography is a piece of information, usually a string of numbers or letters that are stored in a file, which, when processed through a cryptographic algorithm, can encode or decode cryptographic data. (SOURCE: https://en.wikipedia.org/wiki/Key_(cryptography)[Wikipedia]) 
+
+dek::
+A `data cencryption key` is based on a symmetric cipher. The `dek` is used to encrypt and decrypt data.
+
+cek::
+Alias for `dek`
+
+kek::
+A `key encryption key` is based on an asymmetric cipher. The `kek` is used for `dek` wrapping (encryption).
+
+JOSE::
+JSON Object Signing and Encryption provides a general approach to signing and encryption of any content, typically in JSON. It consists of several RFCs:
+
+* <<rfc_7515>>
+* <<rfc_7516>>
+* <<rfc_7517>>
+* <<rfc_7518>>
+* <<rfc_7519>>
+
+<feature table>::
+A placeholder for the real table name that is determined at runtime based on the feature_type.
+
+<tile table>::
+A placeholder for the real table name that is determined at runtime determined by the tile.

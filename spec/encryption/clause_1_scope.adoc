@@ -1,0 +1,17 @@
+== Scope
+
+This extension defines the name `sd_encrypted_features` and `sd_encrypted_tiles`.
+
+This extension applies to the `gpkg_contents` table requirement link:https://www.geopackage.org/spec[Requirement 118] by defining an extension specific instantiation for the data_type `features` and `tiles`.
+
+This extension applies to the `gpkg_data_column` table requirement link:https://www.geopackage.org/spec[Requirement 103] by defining 
+
+* the content type of the `data` column, specific for the data_type `features`, and
+* the content type of the `tile_data` column, specific for the layer `tiles`, and
+* the content type of the `data` column for the `gpkg_ext_keys` table, describing the encoding type for the data encryption key.
+
+This extension applies to the `gpkg_extensions` table rquirement link:https://www.geopackage.org/spec[Requirement 58] by defining an extension specific instantiation using the extension name `sd_encypted_features` and `sd_encypted_tiles` footnote:[These extension names will change after a successful adoption vote!]. 
+
+Both extensions require the `gpkg_ext_keys` table to store the data encryption keys or their lookup metadata.
+
+Both extensions add a `key_id` column to the `features` and `tiles` user data tables that is a foreign key into the `gpkg_ext_keys` table, linking the encrypted data with the data encryption key.

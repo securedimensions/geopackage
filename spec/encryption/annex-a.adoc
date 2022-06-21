@@ -1,0 +1,143 @@
+[appendix]
+:appendix-caption: Annex
+== Conformance Class Abstract Test Suite (Normative)
+
+=== Conformance Class `Keys`
+*Table Definition*
+
+[cols="1,5a"]
+|========================================
+|*Test Case ID* |+/extension_encryption/gpkg_et_keys/table_def+
+|*Test Purpose* |Verify that the `gpkg_ext_keys` table exists and has the correct definition. 
+|*Test Method* |
+. `PRAGMA table_info('gpkg_ext_keys')`
+. Fail if returns an empty result set
+. Fail if result set does not include a column named 'id' or if the column is not of `type` 'TEXT', `notnull` 1.
+. Fail if result set does not include a column named 'data' or if the column is not of `type` 'TEXT', `notnull` 1.
+. Pass if no failures.
+|*Reference* |Req 1001
+|*Test Type* |Basic
+|========================================
+
+[float]
+*Table Data Values*
+
+[cols="1,5a"]
+|========================================
+|*Test Case ID* |+/extensions/encryption/gpkg_ext_keys/data_values+
+|*Test Purpose* |Verify that the `gpkg_ext_keys` table mime_type is specified.
+|*Test Method* |
+. SELECT mime_type FROM "gpkg_data_columns" WHERE table_name="gpkg_ext_keys";
+. Not testable if returns an empty result set
+. Fail if row is "NULL"
+. Pass if no fails
+|*Reference* |Req 1002
+|*Test Type:* |Capabilities
+|========================================
+
+=== Conformance Class `Features`
+*Table Definition*
+
+[cols="1,5a"]
+|========================================
+|*Test Case ID* |+/extension_encryption/features/table_def+
+|*Test Purpose* |Verify that the `<feature data>` table exists and has the correct definition. Extends GeoPackage Conformance test [red]#Features Table#.
+|*Test Method* |
+. `PRAGMA table_info('<feature data>')`
+. Fail if returns an empty result set
+. Fail if result set does not include a column named 'key_id' or if the column is not of type 'TEXT', `notnull` 1.
+. Fail if column named 'key_id' is not 'FOREIGN KEY(key_id) REFERENCES gpkg_ext_keys(id)''
+. Pass if no failures.
+|*Reference* |Req 2001
+|*Test Type* |Basic
+|========================================
+
+
+[float]
+*Table Data Values*
+
+[cols="1,5a"]
+|========================================
+|*Test Case ID* |+/extensions/encryption/gpkg_extensions/data_values+
+|*Test Purpose* |Verify that the `gpkg_extensions` table has the required rows.
+|*Test Method* |
+. SELECT table_name, column_name, scope FROM gpkg_extensions WHERE extension_name = 'sd_encrypted_features';
+. Not testable if returns an empty result set
+. Fail if there is not exactly one row for the `gpkg_ext_keys` table and one row per `<feature data>` table
+. Fail if scope is not "read-write"
+. Fail if table_name is not "gpkg_ext_keys"
+. Fail if column_name for `gpkg_ext_keys` is not "NULL"
+. Fail if column_name for each `<feature data>` is not "NULL"
+. Pass if no fails
+|*Reference* |Req 2002
+|*Test Type:* |Capabilities
+|========================================
+
+
+[cols="1,5a"]
+|========================================
+|*Test Case ID* |+/extensions/encryption/gpkg_data_columns/data_values+
+|*Test Purpose* |Verify that for each `<feature data>` table mime_type is specified.
+|*Test Method* |
+. SELECT mime_type FROM "gpkg_data_columns" 
+JOIN gpkg_contents ON gpkg_contents.table_name = gpkg_data_columns.table_name;
+. Not testable if returns an empty result set
+. Fail if at least one row is "NULL"
+. Pass if no fails
+|*Reference* |Req 2003
+|*Test Type:* |Capabilities
+|========================================
+
+=== Conformance Class `Tiles`
+*Table Definition*
+
+[cols="1,5a"]
+|========================================
+|*Test Case ID* |+/extension_encryption/tiles/table_def+
+|*Test Purpose* |Verify that the `<tile data>` table exists and has the correct definition. Extends GeoPackage Conformance test [red]#Tiles Table#.
+|*Test Method* |
+. `PRAGMA table_info('<tile data>')`
+. Fail if returns an empty result set
+. Fail if result set does not include a column named 'key_id' or if the column is not of type 'TEXT', `notnull` 1.
+. Fail if column named 'key_id' is not 'FOREIGN KEY(key_id) REFERENCES gpkg_ext_keys(id)''
+. Pass if no failures.
+|*Reference* |Req 3001
+|*Test Type* |Basic
+|========================================
+
+
+[float]
+*Table Data Values*
+
+[cols="1,5a"]
+|========================================
+|*Test Case ID* |+/extensions/encryption/gpkg_extensions/data_values+
+|*Test Purpose* |Verify that the `gpkg_extensions` table has the required rows.
+|*Test Method* |
+. SELECT table_name, column_name, scope FROM gpkg_extensions WHERE extension_name = 'sd_encrypted_tiles';
+. Not testable if returns an empty result set
+. Fail if there is not exactly one row for the `gpkg_ext_keys` table and one row per `<tile data>` table
+. Fail if scope is not "read-write"
+. Fail if table_name is not "gpkg_ext_keys"
+. Fail if column_name for `gpkg_ext_keys` is not "NULL"
+. Fail if column_name for each `<tile data>` is not "NULL"
+. Pass if no fails
+|*Reference* |Req 3002
+|*Test Type:* |Capabilities
+|========================================
+
+
+[cols="1,5a"]
+|========================================
+|*Test Case ID* |+/extensions/encryption/gpkg_data_columns/data_values+
+|*Test Purpose* |Verify that for each `<tile data>` table mime_type is specified.
+|*Test Method* |
+. SELECT mime_type FROM "gpkg_data_columns" 
+JOIN gpkg_contents ON gpkg_contents.table_name = gpkg_data_columns.table_name;
+. Not testable if returns an empty result set
+. Fail if at least one row is "NULL"
+. Pass if no fails
+|*Reference* |Req 3003
+|*Test Type:* |Capabilities
+|========================================
+

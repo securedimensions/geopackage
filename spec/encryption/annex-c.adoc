@@ -1,0 +1,10 @@
+[appendix]
+:appendix-caption: Annex
+== Establishing Trust in a GeoPackage file via 3rd Party (Informative)
+Many different solutions exist to establish trust in a GeoPackage file. Any solution must ensure the integrity of a GeoPackage file and establish authenticity. The integrity is important to detect tampering and the authenticty allows to verify the producer (issuer) of the GeoPackage file.
+
+One solution might rely on the following protocol: After a GeoPackage file is generated, the producer (issuer) uploads the "genuine" information to a trusted third party, e.g. a CDN. The genuine information that contains issuer, date, and other information is linked to the hash of the GeoPackage file.
+
+Any attempt to verify a GeoPackge file is based on fetching the genuine information from the trusted 3rd party's API using the file's hash. Upon validating the received information, the user can decide to trust the GeoPackage file.
+
+NOTE: A solution to integrity usually requires a PKI in place. Authenticy also requires to manage certificates that bind a public key to a verified identity.

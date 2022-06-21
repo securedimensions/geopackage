@@ -1,0 +1,10 @@
+[appendix]
+:appendix-caption: Annex
+[[Bibliography]]
+= Bibliography
+
+[[TB17_DCS_ER]]
+[1] OGC: https://docs.ogc.org/per/21-020r1.html[OGC Testbed 17: Data Centric Security ER, Annex A.1: GeoPackage DCS Features Extension] (2021)
+
+[[DP21_SUMMARY_ER]]
+[1] OGC: https://docs.ogc.org/per/21-064.html[OGC Disaster Pilot '21: Summary ER, Annex D.1: GeoPackage Encryption Extension for Features]footnote:[Not yet published] (2021)

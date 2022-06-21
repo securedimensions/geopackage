@@ -1,0 +1,30 @@
+[big]*i.     Abstract*
+
+This document defines an extension that allows a GeoPackage to contain encrypted feature or tile data.
+
+[big]*ii.    Keywords*
+
+The following are keywords to be used by search engines and document catalogues.
+
+ogcdoc, OGC document, geopackage, encryption, security, encrypted feature, encrpted tile, data encryption key, key, 
+
+[big]*iii.   Preface*
+
+The OGC GeoPackage Encryption Extension was originally developed and implemented in the OGC Testbed 17 inititive and documented in the OGC Testbed-17 Data Centric Security Engineering Report. Follow up work in the OGC Disaster-Pilot 2021 simplified the data structure based on disaster use cases. Also, a more holistic security solution, including confidentiality and integrity, was developed. The resulting is publishedfootnote:[Not yet]* in the Disaster Pilot 2021 Summary Engineering Report.
+
+Any GeoPackage file, based on this encryption extension includes the new table `gpkg_ext_keys` that stores metadata about the (symmetric) cipher key used to encrypt the actual data stored in the `features` or `tiles` table(s). In addition, this extension re-defines the `features` and `tiles` user data table by stating that the `data` column contains encrypted features, resp. `tile_data` column contains encrypted tiles, and that the additional column `key_id` is a foreign key into the `gpkg_ext_keys` table.
+
+[big]*v.    Submitting organizations*
+
+The following organizations submitted this document to the Open Geospatial Consortium (OGC):
+
+* Secure Dimensions
+
+[big]*vi.     Submitters*
+
+All questions regarding this submission should be directed to the editor or the submitters:
+
+|===
+|*Name* |*Affiliation*
+|Andreas Matheus | Secure Dimensions
+|===

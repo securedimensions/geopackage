@@ -1,0 +1,20 @@
+== References
+The following normative documents contain provisions that, through reference in this text, constitute provisions of this document. For dated references, subsequent amendments to, or revisions of, any of these publications do not apply. For undated references, the latest edition of the normative document referred to applies.
+
+OGC: OGC 12-128r17 OGC GeoPackage Encoding Standard 1.3.0, http://www.geopackage.org/spec130/ (2020)
+
+[[rfc_7515, RFC 7515: JSON Web Signature (JWS)]]
+ETF: M. Jones, et.al., JSON Web Signature (JWS), https://www.rfc-editor.org/rfc/rfc7515.html (2015)
+
+[[rfc_7516, RFC 7516: JSON Web Encryption (JWE)]]
+IETF: M. Jones, et.al., JSON Web Encryption (JWE), https://www.rfc-editor.org/rfc/rfc7516.html (2015)
+
+[[rfc_7517, RFC 7517: JSON Web Key (JWK)]]
+IETF: M. Jones, JSON Web Key (JWK), https://www.rfc-editor.org/rfc/rfc7517.html (2015)
+
+[[rfc_7518, RFC 7518: JSON Web Algorithms (JWA)]]
+IETF: M. Jones, JSON Web Algorithms (JWA), https://www.rfc-editor.org/rfc/rfc7518.html (2015)
+
+[[rfc_7519, RFC 7519: JSON Web Token (JWT)]]
+IETF: M. Jones, et.al., JSON Web Token (JWT), https://www.rfc-editor.org/rfc/rfc7519.html (2015)
+
